@@ -1,13 +1,257 @@
-body {
+@import "./index.css";
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+li {
+  list-style-type: none;
+}
+
+.nav__link--list {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+}
+
+input[type="range"] {
+  width: 100%;
+  height: 10px;
+  border-radius: 5px;
+  background: #ccc;
+  outline: none;
+}
+
+/* 
+
+NAVIGATION 
+
+*/
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 100px;
+}
+
+#personal-logo {
+  width: 150px;
+  height: 40px;
+  filter: invert(1);
+  position: absolute;
+  left: 24px;
+  top: 24px;
+}
+
+.nav__link {
+  margin: 0 12px;
+}
+
+.nav__link--anchor {
+  text-decoration: none;
+  font-size: 16px;
+  color: #242424;
+  font-weight: 700;
+}
+
+.nav__link--button {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 8px 20px;
+  border: 2px solid #000000;
+  border-radius: 50px;
+  background-color: #4caf50;
+  color: white !important;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: all 0.35s ease;
+}
+
+/*
+
+Header Section 
+
+*/
+
+h1 {
+  font-size: 58px;
+  max-width: 730px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: #4caf50;
+  text-align: center;
+  margin-bottom: 30px;
+  margin: 0 auto;
+}
+
+h2 {
+  font-size: 30px;
+  max-width: 600px;
+  color: red;
+  text-align: center;
+  margin-bottom: 80px;
+  text-transform: uppercase;
+  margin: 0 auto;
+}
+
+/* 
+
+Search Section
+
+*/
+
+#search-section {
+  padding: 20px;
+  text-align: center;
+}
+
+#search-input {
+  padding: 10px;
+  font-size: 16px;
+}
+
+#search-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#results {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/*
+
+MOVIES
+
+*/
+
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px;
+  gap: 10px;
+}
+
+.search-container input,
+.search-container button {
+  margin: 0;
+}
+
+.search-container input {
+  margin: 0 10px;
+}
+
+#movieList {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.movie {
+  background: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  flex: 1 1 calc(25% - 20px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#searchBar {
+  width: 200px;
+  margin-right: 10px;
+}
+
+#yearRange {
+  flex-grow: 1;
+}
+
+/* 
+
+FOOTER 
+
+*/
+
+footer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* 
+
+RESPONSIVENESS 
+
+*/
+
+.burger-menu {
+  display: none;
+  margin: 0;
+  font-size: 24px;
+  color: black;
+  padding: 10px;
+  cursor: pointer;
+  position: relative;
+  z-index: 10;
+}
+
+@media (max-width: 768px) {
+  .nav__link--list {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #929191;
+    width: 100%;
+  }
+
+  .nav__link--list.active {
+    display: flex;
+  }
+
+  .burger-menu {
+    display: block;
+  }
+
+  #personal-logo {
+    display: none;
+  }
+
+  #results {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .search-container {
+    flex-direction: column;
+  }
 }
