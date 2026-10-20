@@ -1,70 +1,66 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+// import './assets/personal-logo.svg';
 
 const Home = () => {
-   const apiKey = ""; //OMDb API Key
-  const [searchTerm, setSearchTerm] = useState(''); // State for search input
-  const [loading, setLoading] = useState(false); // State for loading indicator
-  const [movies, setMovies] = useState([]); // State for storing fetched movies
-  const [year, setYear] = useState(2022); // State for selected year for filtering
+  // Your OMDb API key
+  const apiKey = "92a7848e";
 
+  // Stores whatever the user types into the search box
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Tracks whether the API request is loading
+  const [loading, setLoading] = useState(false);
+
+  // Stores the movies returned by the API
+  const [movies, setMovies] = useState([]);
+
+  // Stores the selected year from the slider
+  const [year, setYear] = useState(2026);
+
+  // Stores any API error messages
+  const [error, setError] = useState("");
+
+  // Fetch movies from the OMDb API
   const fetchMovies = async () => {
     if (!searchTerm.trim()) {
-      alert("Please enter a search term.");
-    } return;
-  }
-  
-  const url = 'https://www.omdbapi.com/?apikey=${apiKey}&s=${searchTerm}';
-  setLoading(true); // Start loading
-  
+      setError("Please enter a movie title.");
+      return;
+    }
+
+    setError("");
+    setLoading(true);
+
     try {
+      const url = `https://www.omdbapi.com/?apikey=${apiKey}&s=${encodeURIComponent(searchTerm)}`;
+
       const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
+
+      if (!response.ok) {
+        throw new Error("Network response was not OK");
+      }
+
       const data = await response.json();
+
       if (data.Response === "True") {
-        setMovies(data.Search); // Set movies from fetched data
+        setMovies(data.Search);
+      } else {
+        setMovies([]);
+        setError(data.Error || "No movies found.");
       }
-      else {
-        alert(data.Error);
-        setMovies([]); // Clear Movies if there was an error
-      } catch (error) {
-        console.error("Error fetching movies:", error);
-      } finally {
-        setLoading(false); // stop loading
-      }
-    };
-
-    const displayMovies = (year) => {
-      return movies.filter(movie => parseInt(movie.Year) <= year);
-    };
-
-    useEffect(() => {
-      displayMovies(year); // Update displayed movies when year changes
-    }, [year, movies]); // Dependency array
-
-    return (
-      <div>
-        <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} // Update search term
-        placeholder="Search for movies..." />
-        <button onClick={fetchMovies}>Search</button>
-        {loading && <p>Loading...</p>}
-        <div id="results">
-          {displayMovies(year).map(movie => (
-            <div key={movie.imdbID}>
-              <h3>{movie.Title}</h3>
-              <p>Year: {movie.Year}</p>
-              <img onScroll={movie.Poster} alt={movie.Title} />
-        </div>
-          ))}
-      </div>
-      <input type="range" id="yearRange" min="1900" max="2023" value={year} onChange={(e) => setYear(parseInt(e.target.value))} // Update year
-      />
-      <p>Selected Year: {year}</p>
-      </div>
-    );
+    } catch (error) {
+      console.error("Error fetching movies:", error);
+      setMovies([]);
+      setError("Something went wrong while fetching movies.");
+    } finally {
+      setLoading(false);
+    }
   };
-  
+
+  // Only display movies released on or before selected year
+  const filteredMovies = movies.filter((movie) => {
+    return Number(movie.Year) <= year;
+  });
+
   return (
     <div>
       <section id="landing-page">
@@ -72,33 +68,37 @@ const Home = () => {
           <div className="burger-menu" id="burgerMenu">
             <i className="fas fa-bars"></i>
           </div>
+
           <figure>
             <img
               id="personal-logo"
-              src="./assets/blinker-icon.png"
-              alt="blinker company logo"
+              src= {null}
+              alt="Company logo"
             />
           </figure>
+
           <ul className="nav__link--list" id="navLinks">
             <li className="nav__link">
               <a
-                href="#"
+                href="#landing-page"
                 className="nav__link--anchor link__hover-effect link__hover-effect--black"
               >
                 Home
               </a>
             </li>
+
             <li className="nav__link">
               <a
-                href="#"
+                href="#search-section"
                 className="nav__link--anchor link__hover-effect link__hover-effect--black"
               >
                 Find Your Movie
               </a>
             </li>
+
             <li className="nav__link--button">
               <a
-                href="#"
+                href="mailto:contact@example.com"
                 className="nav__link--anchor link__hover-effect link__hover-effect--black"
               >
                 Contact
@@ -106,36 +106,66 @@ const Home = () => {
             </li>
           </ul>
         </nav>
+
         <section>
           <h1>Welcome to Our Movie Finder</h1>
           <h2>Discover the perfect movie for your needs!</h2>
         </section>
+
         <section id="search-section">
           <div className="search-container">
             <input
               type="text"
               id="search-input"
               placeholder="Search for movies..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  fetchMovies();
+                }
+              }}
             />
-            <button id="search-button" onClick={fetchMovies}>
+
+            <button id="search-button" onClick={fetchMovies} disabled={loading}>
               Search
             </button>
-            <div className="movie" id="loading" style={{ display: "none" }}>
-              Loading...
-            </div>
+
             <label htmlFor="yearRange">Select Release Year Range:</label>
+
             <input
               type="range"
               id="yearRange"
               min="1900"
               max="2026"
-              value="2026"
-              // onChange=""
+              value={year}
+              onChange={(e) => setYear(Number(e.target.value))}
             />
-            <span id="yearValue">2026</span>
+
+            <span id="yearValue">{year}</span>
           </div>
-          <div id="results"></div>
-          <div id="movieList"></div>
+
+          {loading && (
+            <div className="movie" id="loading">
+              Loading movies...
+            </div>
+          )}
+
+          {error && <p className="error">{error}</p>}
+
+          <div id="results">
+            {!loading &&
+              filteredMovies.map((movie) => (
+                <div className="movie" key={movie.imdbID}>
+                  {movie.Poster !== "N/A" && (
+                    <img src={movie.Poster} alt={movie.Title} />
+                  )}
+
+                  <h3>{movie.Title}</h3>
+                  <p>Year: {movie.Year}</p>
+                </div>
+              ))}
+          </div>
         </section>
       </section>
     </div>
