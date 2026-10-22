@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useParams } from "react-router";
 import Rating from "./Rating";
-// import Price from "../components/ui/Price";
-// import Book from "../components/ui/Book";
 import Movie from "../Components/Movie";
 
 const apiKey = "92a7848e";
@@ -18,6 +16,7 @@ const MovieDetails = ({ movies, cart = [], addToCart }) => {
     );
     const data = await res.json();
     setData(data);
+    console.log(data);
   };
 
   useEffect(() => {
@@ -55,7 +54,6 @@ const MovieDetails = ({ movies, cart = [], addToCart }) => {
               </figure>
               <div className="movie__selected--description">
                 <h2 className="movie__selected--title">{movie.title}</h2>
-                {/* <Rating rating={movie.rating} />  */}
                 <div className="movie__selected--price">
                   {/* <Price
                       originalPrice={movie.originalPrice}
@@ -63,27 +61,18 @@ const MovieDetails = ({ movies, cart = [], addToCart }) => {
                     />  */}
                 </div>
                 <div className="movie__summary">
-                  <h3 className="movie__summary--title">{movie.Title}</h3>
+                  <h3 className="movie__summary--title">{movie.Title} | {movie.Year}</h3>
                   {movie.imdbRating && movie.imdbRating !== "N/A" && (
                     <Rating rating={Number(movie.imdbRating) / 2} />
                   )}
                   <p className="movie__summary--para">{movie.Plot}</p>
                   <p className="movie__summary--para">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Sapiente id voluptatum eaque dolore commodi explicabo
-                    officiis incidunt ipsam qui sunt ullam, ab eveniet neque
-                    numquam. Aperiam blanditiis voluptatem ullam architecto!
+                    Performed by: {movie.Actors}
+                  </p>
+                  <p className="movie__summary--para">
+                    Written by: {movie.Writer}
                   </p>
                 </div>
-                {movieExistsOnCart() ? (
-                  <Link to={"/cart"} className="movie__link">
-                    <button className="btn">Checkout</button>
-                  </Link>
-                ) : (
-                  <button className="btn" onClick={() => addMovieToCart(movie)}>
-                    Add to cart
-                  </button>
-                )}
               </div>
             </div>
           </div>
@@ -97,12 +86,12 @@ const MovieDetails = ({ movies, cart = [], addToCart }) => {
               </h2>
             </div>
             <div className="movies">
-              {/* {movies
+              {movies
                 .filter((movie) => movie.rating === 5 && +movie.id !== +id)
                 .slice(0, 4)
                 .map((movie) => (
                   <Movie movie={movie} key={movie.id} />
-                ))} */}
+                ))}
             </div>
           </div>
         </div>

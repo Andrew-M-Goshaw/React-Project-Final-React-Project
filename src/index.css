@@ -136,9 +136,7 @@ Movie :id
   margin-bottom: 8px;
 }
 
-.movie__summary--title {
-  margin-bottom: 8px;
-}
+
 
 .movie__summary--para {
   margin-bottom: 16px;
@@ -340,14 +338,6 @@ MOVIE DETAILS
   margin: 0 -24px;
 }
 
-.movies__body {
-
-}
-
-.movies__main {
-
-}
-
 .movies__container {
   padding: 24px 0;
 }
@@ -411,10 +401,6 @@ MOVIE DETAILS
   margin-bottom: 8px;
 }
 
-.movie__selected--price {
-
-}
-
 .movie__summary {
   margin-bottom: 16px;
 }
@@ -442,8 +428,6 @@ MOVIE DETAILS
   /* !important; */
   margin-bottom: 8px;
 }
-
-
 
 /* 
 
@@ -575,7 +559,7 @@ RESPONSIVENESS
     flex-direction: column;
   }
 
-  .movie__selected--fiture {
+  .movie__selected--figure {
     width: 100%;
     justify-content: flex-start;
   }
