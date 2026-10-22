@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useParams } from "react-router";
-// import Rating from "../components/Rating";
+import Rating from "./Rating";
 // import Price from "../components/ui/Price";
 // import Book from "../components/ui/Book";
 import Movie from "../Components/Movie";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const apiKey = "92a7848e";
 
@@ -65,6 +64,9 @@ const MovieDetails = ({ movies, cart = [], addToCart }) => {
                 </div>
                 <div className="movie__summary">
                   <h3 className="movie__summary--title">{movie.Title}</h3>
+                  {movie.imdbRating && movie.imdbRating !== "N/A" && (
+                    <Rating rating={Number(movie.imdbRating) / 2} />
+                  )}
                   <p className="movie__summary--para">{movie.Plot}</p>
                   <p className="movie__summary--para">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.
