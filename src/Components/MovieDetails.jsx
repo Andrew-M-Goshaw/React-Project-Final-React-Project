@@ -86,12 +86,12 @@ const MovieDetails = ({ movies, cart = [], addToCart }) => {
               </h2>
             </div>
             <div className="movies">
-              {movies
+              {/* {movies
                 .filter((movie) => movie.rating === 5 && +movie.id !== +id)
                 .slice(0, 4)
                 .map((movie) => (
                   <Movie movie={movie} key={movie.id} />
-                ))}
+                ))} */}
             </div>
           </div>
         </div>
