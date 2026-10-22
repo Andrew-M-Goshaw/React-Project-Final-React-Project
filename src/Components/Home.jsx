@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-// import './assets/personal-logo.svg';
+import personalLogo from "../assets/personal-logo.svg";
+import { Link } from "react-router";
 
 const Home = () => {
   // Your OMDb API key
@@ -70,11 +71,7 @@ const Home = () => {
           </div>
 
           <figure>
-            <img
-              id="personal-logo"
-              src= {null}
-              alt="Company logo"
-            />
+            <img id="personal-logo" src={personalLogo} alt="Company logo" />
           </figure>
 
           <ul className="nav__link--list" id="navLinks">
@@ -156,14 +153,14 @@ const Home = () => {
           <div id="results">
             {!loading &&
               filteredMovies.map((movie) => (
-                <div className="movie" key={movie.imdbID}>
+                <Link to={`/movie/${movie.imdbID}`} className="movie" key={movie.imdbID}>
                   {movie.Poster !== "N/A" && (
                     <img src={movie.Poster} alt={movie.Title} />
                   )}
 
                   <h3>{movie.Title}</h3>
                   <p>Year: {movie.Year}</p>
-                </div>
+                </Link>
               ))}
           </div>
         </section>
