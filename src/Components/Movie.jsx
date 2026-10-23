@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router";
-// import Rating from "../Rating";
-// import Price from "./Price";
+
 
 const Movie = ({ movie }) => {
   const [img, setImg] = useState();

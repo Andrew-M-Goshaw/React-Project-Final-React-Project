@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import personalLogo from "../assets/personal-logo.svg";
 import { Link } from "react-router";
-import Rating from "./Rating";
 
 const Home = () => {
   // Your OMDb API key

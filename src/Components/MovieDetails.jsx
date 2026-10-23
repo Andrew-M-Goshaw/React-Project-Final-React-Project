@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useParams } from "react-router";
 import Rating from "./Rating";
-import Movie from "../Components/Movie";
+// import Movie from "../Components/Movie";
 
 const apiKey = "92a7848e";
 
@@ -10,26 +10,50 @@ const MovieDetails = ({ movies, cart = [], addToCart }) => {
   const [movie, setData] = useState({});
   const { id } = useParams();
 
-  const fetchMovieData = async () => {
-    const res = await fetch(
-      `https://www.omdbapi.com/?apikey=${apiKey}&i=${id}`,
-    );
-    const data = await res.json();
-    setData(data);
-    console.log(data);
-  };
+  // ORIGINAL FETCHMOVIESDATA REQUEST
+
+  // const fetchMovieData = async () => {
+  //   const res = await fetch(
+  //     `https://www.omdbapi.com/?apikey=${apiKey}&i=${id}`,
+  //   );
+  //   const data = await res.json();
+  //   setData(data);
+  //   console.log(data);
+  // };
+
+  // useEffect(() => {
+  //   fetchMovieData();
+  // }, [fetchMovieData]);
+
+  // SECOND VERSION
+
+  // const fetchMovieData = useCallback(async () => {
+  //   const res = await fetch(
+  //     `https://www.omdbapi.com/?apikey=${apiKey}&i=${id}`,
+  //   );
+  //   const data = await res.json();
+  //   setData(data);
+  //   console.log(data);
+  // }, [apiKey, id]); // Include apiKey and id if they can change
+
+  // useEffect(() => {
+  //   fetchMovieData();
+  // }, [fetchMovieData]); // Now this won't cause an infinite loop
+
+  // THIRD ATTEMPT
 
   useEffect(() => {
+    const fetchMovieData = async () => {
+      const res = await fetch(
+        `https://www.omdbapi.com/?apikey=${apiKey}&i=${id}`,
+      );
+      const data = await res.json();
+      setData(data);
+      console.log(data);
+    };
+
     fetchMovieData();
-  }, []);
-
-  function addMovieToCart(movie) {
-    addToCart(movie);
-  }
-
-  function movieExistsOnCart() {
-    return cart.find((movie) => movie.id === +id);
-  }
+  }, [id]); // id was considered a missing dependency
 
   return (
     <div id="movies__body">
@@ -61,7 +85,9 @@ const MovieDetails = ({ movies, cart = [], addToCart }) => {
                     />  */}
                 </div>
                 <div className="movie__summary">
-                  <h3 className="movie__summary--title">{movie.Title} | {movie.Year}</h3>
+                  <h3 className="movie__summary--title">
+                    {movie.Title} | {movie.Year}
+                  </h3>
                   {movie.imdbRating && movie.imdbRating !== "N/A" && (
                     <Rating rating={Number(movie.imdbRating) / 2} />
                   )}
